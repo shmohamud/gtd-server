@@ -1,17 +1,15 @@
 const mongoose = require('mongoose')
-const Project = require('../models/ProjectModel')
 const chalk = require('chalk')
-const { addMonths } = require('../helpers')
-const { ObjectId } = require('mongodb')
 
 const connected = chalk.bold.greenBright
 const error = chalk.bold.yellowBright
 const disconnected = chalk.bold.red
+const closed = chalk.bold.bgWhite
 
 const dbURL = 'mongodb://127.0.0.1:27017/gtd-api'
 
 mongoose.connect(dbURL, {
-    useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true
+    useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify:false
 })
 
 mongoose.connection.on('connected', function () {
@@ -26,16 +24,9 @@ mongoose.connection.on('error', function(err){
     console.log(error('Mongoose connection error', err))
 })
 
-const date = new Date
-const inOneMonth = addMonths(date, 1)
-
-//quick project document creation & save test
-
-const finishGTDBackend = new Project({
-    _id: new ObjectId(),
-    title: 'This is a Test Title Finish Backend',
-    description: 'Set up DB and models required for full CRUD of Projects, Actions',
-    deadline: inOneMonth
+process.on('SIGINT', function(){
+    mongoose.connection.close(function(){
+        console.log(closed("Mongoose connection is disconnected due to app termination"))
+        process.exit(0)
+    })
 })
-console.log(finishGTDBackend)
-finishBackend.save()

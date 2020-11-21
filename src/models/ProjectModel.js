@@ -6,10 +6,7 @@ const ProjectSchema = new Schema({
     title: String,
     deadline: Date,
     description: String,
-    actions: [{
-        type: Schema.Types.ObjectId,
-        ref: "Action"
-    }]
+    actions: []
 })
 
 module.exports = mongoose.model("Project", ProjectSchema)
