@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use('/projects', projectsRouter)
 app.use('/actions', actionsRouter)
-app.use('/braindumps', actionsRouter)
+app.use('/braindumps', braindumpsRouter)
 
 
 const port = process.env.port || 4000
