@@ -1,32 +1,37 @@
-const mongoose = require('mongoose')
-const chalk = require('chalk')
+const mongoose = require("mongoose");
+const chalk = require("chalk");
 
-const connected = chalk.bold.greenBright
-const error = chalk.bold.yellowBright
-const disconnected = chalk.bold.red
-const closed = chalk.bold.bgWhite
+const connected = chalk.bold.greenBright;
+const error = chalk.bold.yellowBright;
+const disconnected = chalk.bold.red;
+const closed = chalk.bold.bgWhite;
 
-const dbURL = 'mongodb://127.0.0.1:27017/gtd-api'
+const dbURL = "mongodb://127.0.0.1:27017/gtd-api";
 
 mongoose.connect(dbURL, {
-    useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify:false
-})
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+});
 
-mongoose.connection.on('connected', function () {
-    console.log(connected('Mongoose connection is open to ', dbURL))
-})
+mongoose.connection.on("connected", function () {
+  console.log(connected("Mongoose connection is open to ", dbURL));
+});
 
-mongoose.connection.on('disconnected', function(){
-    console.log(disconnected('Mongoose connection is disconnected'))
-})
+mongoose.connection.on("disconnected", function () {
+  console.log(disconnected("Mongoose connection is disconnected"));
+});
 
-mongoose.connection.on('error', function(err){
-    console.log(error('Mongoose connection error', err))
-})
+mongoose.connection.on("error", function (err) {
+  console.log(error("Mongoose connection error", err));
+});
 
-process.on('SIGINT', function(){
-    mongoose.connection.close(function(){
-        console.log(closed("Mongoose connection is disconnected due to app termination"))
-        process.exit(0)
-    })
-})
+process.on("SIGINT", function () {
+  mongoose.connection.close(function () {
+    console.log(
+      closed("Mongoose connection is disconnected due to app termination")
+    );
+    process.exit(0);
+  });
+});
