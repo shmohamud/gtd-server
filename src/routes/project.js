@@ -4,9 +4,16 @@ const projectsController = require("../controllers/project");
 const getActions = require("../controllers/action");
 
 router.patch("/:project_id/edit", async (req, res) => {
-  let project = await createAndEmbed(req.params.id, req.body);
-  res.status(200);
-  res.json(project);
+  let { project_id } = req.params;
+  let update = req.body;
+  try {
+    let project = await projectsController.updateProject(project_id, update);
+    res.status(200);
+    res.json(project);
+  } catch (err) {
+    console.log("Error: ", err);
+    res.status(500);
+  }
 });
 
 router.post("/create", async (req, res) => {
