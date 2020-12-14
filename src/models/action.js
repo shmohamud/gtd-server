@@ -9,6 +9,7 @@ const ActionSchema = new Schema({
   complete: { type: Boolean, default: false },
   waitingFor: [],
   setting: { type: String, default: "default setting" },
+  deadline: {type: Date, default: "2099-01-01T10:30"}
 });
 
 module.exports = mongoose.model("Action", ActionSchema);

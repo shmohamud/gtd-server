@@ -1,46 +1,72 @@
 require("../db");
+const services = require("../services/project");
 const mongoose = require("mongoose");
-const Project = require("../models/project");
 
-const createProject = async function (project) {
-  project._id = mongoose.Types.ObjectId();
+const all = async (req, res) => {
   try {
-    await Project.create(project).exec();
+    const all = await services.all();
+    res.status(200);
+    res.json(all);
   } catch (err) {
-    console.log("Error: ", err.stack);
-  }
-};
-
-const getProjects = async () => {
-  try {
-    const projects = await Project.find({}).exec();
-    return projects;
-  } catch (err) {
+    res.status(500);
     console.log(err.stack);
   }
 };
 
-const getProject = async (id) => {
-  const project = await Project.findById(id).exec();
-  return project;
+const byId = async (req, res) => {
+  const { project_id } = req.params;
+  try {
+    const data = await services.byId(project_id);
+    res.status(200);
+    res.json(data);
+    return data;
+  } catch (err) {
+    res.status(500)
+    console.log("Error: ", err);
+  }
 };
 
-const updateProject = async (id, update) => {
-  const filter = { _id: id };
+const create = async function (req, res) {
   try {
-    const project = await Project.findOneAndUpdate(filter, update, {
-      new: true,
-    }).exec();
+    const body = req.body;
+    const created = await services.create(body);
+    res.json(created);
+    res.status(201);
+  } catch (err) {
+    res.status(500);
+  }
+};
+
+const update = async (req, res) => {
+  const { project_id } = req.params;
+  const update = req.body;
+  try {
+    const updated = await services.update(project_id, update);
+    res.status(200);
+    res.json(updated);
+  } catch (err) {
+    res.status(500)
+    console.log("Error: ", err);
+  }
+};
+
+const destroy = async (req, res) => {
+  const { project_id } = req.params;
+  try {
+    const destroyed = await services.destroy(project_id);
+    res.status(200);
+    res.json(destroyed);
     return project;
   } catch (err) {
-    console.log("Error: ", err, stack);
+    res.status(500)
+    console.log("Error: ", err);
   }
-  return project;
 };
 
 module.exports = {
-  createProject: createProject,
-  getProjects: getProjects,
-  getProject: getProject,
-  updateProject: updateProject,
+  all: all,
+  byId: byId,
+  create: create,
+  update: update,
+  destroy: destroy,
 };

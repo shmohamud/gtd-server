@@ -1,52 +1,34 @@
 require("../db");
 const mongoose = require("mongoose");
-const Action = require("../models/action");
-const Project = require("../models/project");
 const ObjectId = mongoose.Types.ObjectId;
+const services = require('../services/action');
 
-const createAndEmbed = async function (projectId, action) {
+
+const all = async (req, res) => {
   try {
-    action._id = new ObjectId();
-    await Action.create(action, function (err) {
-      if (err) {
-        console.log("Error: ", err);
-      }
-    });
+    const actions = await services.all();
+    res.status(200);
+    res.json(actions);
   } catch (err) {
-    console.log("Error: ", err);
-  }
-  try {
-    let project = await Project.findOneAndUpdate(
-      { _id: projectId },
-      {
-        $push: {
-          actions: {
-            _id: action._id,
-            type: action.type,
-            completed: action.completed,
-            description: action.description,
-            setting: action.setting,
-          },
-        },
-      },
-      {
-        new: true,
-        useFindAndModify: false,
-      }
-    );
-    return project;
-  } catch (err) {
-    console.log("Error: ", err);
+    res.status(500);
+    console.log(err.stack);
   }
 };
 
-const getActions = async () => {
-  try {
-    const actions = await Action.find({});
-    return actions;
-  } catch (err) {
-    console.log("Error: ", err);
+const create = async function (req, res) {
+  const action = req.body  
+  action._id = new ObjectId();
+  const project_id = req.params.project_id || false
+    try {
+     const data = await services.create(project_id, action)
+     res.json(data)
+     res.status(200)
+  }catch(err){
+    console.log("Error: ", err)
   }
-};
 
-module.exports = { createAndEmbed: createAndEmbed, getActions: getActions };
+  }
+
+
+
+module.exports = { create: create, all:all };

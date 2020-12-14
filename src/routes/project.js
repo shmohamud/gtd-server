@@ -1,72 +1,13 @@
 const express = require("express");
-const router = express.Router();
-const projectsController = require("../controllers/project");
-const getActions = require("../controllers/action");
+const Project = require("../controllers/project");
+const Action = require("../controllers/action")
+const projects = express.Router();
 
-router.patch("/:project_id/edit", async (req, res) => {
-  let { project_id } = req.params;
-  let update = req.body;
-  try {
-    let project = await projectsController.updateProject(project_id, update);
-    res.status(200);
-    res.json(project);
-  } catch (err) {
-    console.log("Error: ", err);
-    res.status(500);
-  }
-});
+projects.get("/", async (req, res) => Project.all(req,res))
+projects.get("/:project_id", async (req, res) => Project.byId(req, res))
+projects.post("/create", async (req, res) => Project.create(req, res));
+projects.post("/:project_id/actions", async (req, res) => Action.create(req, res));
+projects.patch("/:project_id", async (req, res) => Project.update(req, res))
+projects.delete("/:project_id", async (req, res) => Project.destroy(req, res))
 
-router.post("/create", async (req, res) => {
-  try {
-    const body = req.body;
-    const project = await projectsController.createProject(body);
-    res.status(200);
-    res.json(project);
-  } catch (err) {
-    res.status(500);
-  }
-});
-
-router.get("/:project_id/actions/create", async (req, res) => {
-  try {
-    await projectsController.createProject();
-    res.status(200);
-    res.json(actions);
-  } catch (err) {
-    console.log(err);
-    res.status = 500;
-  }
-});
-
-router.get("/:project_id/actions/:action_id", async (req, res) => {
-  try {
-    const actions = await getActions(req.params.id, req.body);
-    res.status(200);
-    res.json(actions);
-  } catch (err) {
-    console.log(err);
-    res.status = 500;
-  }
-});
-
-router.get("/", async (req, res) => {
-  try {
-    const projects = await projectsController.getProjects();
-    res.json(projects);
-    res.status = 200;
-  } catch (err) {
-    res.status(500);
-  }
-});
-router.get("/:project_id", async (req, res) => {
-  try {
-    const { project_id } = req.params;
-    const project = await projectsController.getProject(project_id);
-    res.json(project);
-    res.status = 200;
-  } catch (err) {
-    res.status(500);
-  }
-});
-
-module.exports = router;
+module.exports = projects;

@@ -1,18 +1,18 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const projectsRouter = require('../routes/project')
-const actionsRouter = require('../routes/action');
-const braindumpsRouter = require('../routes/braindump');
+const projects = require('../routes/project')
+const actions = require('../routes/action');
+const braindumps = require('../routes/braindump');
 
 const app = new express()
 
 app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
-app.use('/projects', projectsRouter)
-app.use('/actions', actionsRouter)
-app.use('/braindumps', braindumpsRouter)
+app.use('/projects', projects)
+app.use('/actions', actions)
+app.use('/braindumps', braindumps)
 
 
 const port = process.env.port || 4000
