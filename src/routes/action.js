@@ -1,7 +1,9 @@
 const express = require("express");
-const router = express.Router();
-const Action = require("../controllers/project");
+const actions = express.Router();
+const Action = require("../controllers/action");
 
-router.get("/", async function (req, res) {Action.all(req,res)});
+actions.get("/", async (req, res) => Action.all(req,res));
+actions.patch("/:action_id", async (req, res) => Action.update(req, res))
 
-module.exports = router;
+
+module.exports = actions;

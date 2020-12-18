@@ -23,7 +23,6 @@ const byId = async (id) => {
 const create = async function (body) {
   body._id = new mongoose.Types.ObjectId();
   const created = new Project(body);
-  console.log("Created ", created);
   created.save(function (err) {
     if (err) return err;
   });
