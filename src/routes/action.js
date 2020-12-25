@@ -4,6 +4,8 @@ const Action = require("../controllers/action");
 
 actions.get("/", async (req, res) => Action.all(req,res));
 actions.patch("/:action_id", async (req, res) => Action.update(req, res))
+actions.delete("/:action_id", async (req, res) => Action.destroy(req, res))
+
 
 
 module.exports = actions;

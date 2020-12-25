@@ -1,6 +1,8 @@
-require("../db");
+ require("../db");
 const services = require("../services/project");
 const mongoose = require("mongoose");
+
+
 
 const all = async (req, res) => {
   try {
@@ -51,12 +53,12 @@ const update = async (req, res) => {
 };
 
 const destroy = async (req, res) => {
-  const { project_id } = req.params;
   try {
+    const { project_id } = req.params;
     const destroyed = await services.destroy(project_id);
     res.status(200);
     res.json(destroyed);
-    return project;
+    return destroyed;
   } catch (err) {
     res.status(500)
     console.log("Error: ", err);

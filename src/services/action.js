@@ -22,44 +22,51 @@ const byId = async (id) => {
 };
 
 const create = async function (id, action) {
-  if (id) {
-    try {
-      //If request sent with id, find and embed action into associated project
-      let project = await Project.findOneAndUpdate(
-        { _id: id },
-        {
-          $push: {
-            actions: {
-              _id: action._id,
-              type: action.type,
-              completed: false,
-              description: action.description,
-              setting: action.setting,
-            },
-          },
-        },
-        {
-          new: true,
-          useFindAndModify: false,
-        }
-      ).exec();
-      return project;
-    } catch (err) {
-      console.log("Error: ", err);
-    }
-  }
-  const created = await Action.create(action, function (err) {
+  //Create the action
+  const created = await Action.create([action], async function (err) {
     if (err) {
       console.log("Error: ", err);
     }
-    return created;
-  }).exec();
+    //If id of parent and no error creating action, update parent Project
+    if (id) {
+      try {
+        //Find and embed action into associated project
+        let project = await Project.findOneAndUpdate(
+          { _id: id },
+          {
+            $push: {
+              actions: {
+                _id: action._id,
+                type: action.type,
+                completed: false,
+                description: action.description,
+                setting: action.setting,
+              },
+            },
+          },
+          {
+            new: true,
+            useFindAndModify: false,
+          }
+        ).exec();
+      } catch (err) {
+        console.log("Error: ", err);
+      }
+    }
+  });
+  return created;
 };
 
 const updateParent = async (id, update) => {
+  let project = await Project.findOne(
+    { "actions._id": mongoose.Types.ObjectId(id) },
+    function (err, doc) {
+      console.log(doc);
+    }
+  );
   try {
     let parent = await Project.findOneAndUpdate(
-      {},
+      { _id: project._id },
       {
         $set: {
           "actions.$[i].type": update.type,
@@ -69,7 +76,7 @@ const updateParent = async (id, update) => {
       {
         arrayFilters: [{ "i._id": mongoose.Types.ObjectId(id) }],
         new: true,
-        useFindAndModify: false
+        useFindAndModify: false,
       }
     ).exec();
     return parent.actions;
@@ -86,18 +93,28 @@ const update = async (id, update) => {
     }).exec();
     return updated;
   } catch (err) {
-    console.log("Error: ", err, stack);
+    console.log("Error: ", err);
   }
 };
 
 const destroy = async (id) => {
-  const filter = { _id: id };
-  try {
-    const action = await Action.deleteOne(filter).exec();
-    return action;
-  } catch (err) {
-    console.log("Error: ", err);
-  }
+  const action_id = mongoose.Types.ObjectId(id);
+  const update = { $pull: { actions: { _id: action_id } } };
+  var ObjectId = mongoose.Types.ObjectId;
+  const filter = { _id: ObjectId(id) };
+
+  Project.find({ "actions._id": action_id }, function (err, result) {
+    if(err) return err
+    Project.updateOne(
+      { _id: ObjectId(result[0]._id) },
+      { $pull: { actions: { _id: action_id } } }
+    ).then((err, output) => console.log("output of db project op: ", output));
+  });
+
+  Action.deleteOne(filter, function (err, output) {
+    if(err) return err
+    console.log("output of action db op ", output);
+  });
 };
 
 module.exports = {

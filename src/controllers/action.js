@@ -29,7 +29,6 @@ const create = async function (req, res) {
 
 const update = async (req, res) => {
   const { action_id } = req.params;
-  console.log(action_id, req.body);
   const update = req.body;
   try {
     const updated = await services.update(action_id, update);
@@ -41,4 +40,18 @@ const update = async (req, res) => {
   }
 };
 
-module.exports = { create: create, all: all, update: update };
+
+const destroy = async (req, res) => {
+  const { action_id } = req.params;
+  try {
+    const destroyed = await services.destroy(action_id);
+    res.status(200);
+    res.json(destroyed);
+    return destroyed
+  } catch (err) {
+    res.status(500)
+    console.log("Error: ", err);
+  }
+};
+
+module.exports = { create: create, all: all, update: update, destroy:destroy };
