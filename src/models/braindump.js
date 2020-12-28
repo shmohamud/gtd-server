@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const BraindumpSchema = new Schema(
   {
     _id: Schema.Types.ObjectId,
-    dump: [{ type: String }],
+    item: Schema.Types.String
   },
   { timestamps: true }
 );

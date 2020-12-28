@@ -1,37 +1,9 @@
 const express = require("express");
-const router = express.Router();
-const braindumpsController = require("../controllers/braindump");
+const braindumps = express.Router();
+const Braindump = require("../controllers/braindump");
 
-router.post("/create", async (req, res) => {
-  try {
-    const body = req.body;
-    const braindump = await braindumpsController.createBraindump(body);
-    res.status(200);
-    res.json(braindump);
-  } catch (err) {
-    res.status(500);
-  }
-});
+braindumps.get("/", async (req, res) => Braindump.all(req, res));
+braindumps.post("/", async (req, res) => Braindump.create(req, res));
+braindumps.delete("/:id", async (req, res) => Braindump.destroy(req, res));
 
-router.get("/", async (req, res) => {
-  try {
-    const braindumps = await braindumpsController.getBraindumps();
-    res.json(braindumps);
-    res.status = 200;
-  } catch (err) {
-    res.status(500);
-  }
-});
-
-router.get("/:braindump_id", async (req, res) => {
-  try {
-    const { braindump_id } = req.params;
-    const braindump = await braindumpsController.getBraindump(braindump_id);
-    res.json(braindump);
-    res.status = 200;
-  } catch (err) {
-    res.status(500);
-  }
-});
-
-module.exports = router;
+module.exports = braindumps;

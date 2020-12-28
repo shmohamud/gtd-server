@@ -1,29 +1,44 @@
 require("../db");
+const services = require("../services/braindump");
 const mongoose = require("mongoose");
-const Braindump = require("../models/braindump");
 
-const createBraindump = async function (braindump) {
-  braindump._id = mongoose.Types.ObjectId();
-  await Braindump.create(braindump, async function (err) {
-    if (err) {
-      console.log("Error: ", err);
-    }
-    console.log("Successfully created");
-  });
+const all = async (req, res) => {
+  try {
+    const all = await services.all();
+    res.status(200);
+    res.json(all);
+  } catch (err) {
+    res.status(500);
+    console.log(err.stack);
+  }
 };
 
-const getBraindumps = async () => {
-  const braindumps = await Braindump.find({});
-  return braindumps;
+const create = async function (req, res) {
+  try {
+    const body = req.body;
+    const created = await services.create(body);
+    res.json(created);
+    res.status(201);
+  } catch (err) {
+    res.status(500);
+  }
 };
 
-const getBraindump = async (id) => {
-  const braindump = await Braindump.findById(id);
-  return braindump;
+const destroy = async (req, res) => {
+  try {
+    const { braindump_id } = req.params;
+    const destroyed = await services.destroy(braindump_id);
+    res.status(200);
+    res.json(destroyed);
+    return destroyed;
+  } catch (err) {
+    res.status(500);
+    console.log("Error: ", err);
+  }
 };
 
 module.exports = {
-  createBraindump: createBraindump,
-  getBraindumps: getBraindumps,
-  getBraindump: getBraindump,
+  all: all,
+  create: create,
+  destroy: destroy,
 };

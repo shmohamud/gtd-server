@@ -15,13 +15,15 @@ const all = async (req, res) => {
 };
 
 const create = async function (req, res) {
-  const action = req.body;
-  action._id = new ObjectId();
+  let action = {}
+  action.description = req.body.description
+  action.type = req.body.type
+  action._id = new ObjectId()
   const project_id = req.params.project_id || false;
   try {
     const data = await services.create(project_id, action);
     res.json(data);
-    res.status(200);
+    res.status(201);
   } catch (err) {
     console.log("Error: ", err);
   }

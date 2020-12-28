@@ -2,8 +2,6 @@
 const services = require("../services/project");
 const mongoose = require("mongoose");
 
-
-
 const all = async (req, res) => {
   try {
     const all = await services.all();

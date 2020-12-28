@@ -26,6 +26,7 @@ const create = async function (body) {
   created.save(function (err) {
     if (err) return err;
   });
+  return created
 };
 
 const update = async (id, update) => {
