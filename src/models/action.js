@@ -6,7 +6,7 @@ const ActionSchema = new Schema(
     _id: Schema.Types.ObjectId,
     type: {
       type: String,
-      enum: ["code", "call", "hangout", "reading", "none"],
+      enum: ["code", "call", "hangout", "reading", "delegate", "none"],
       default: "none",
     },
     queued: { type: Boolean, default: false },
@@ -15,10 +15,10 @@ const ActionSchema = new Schema(
     waitingFor: [],
     setting: {
       type: String,
-      enum: ["home", "driving", "walking", "none"],
+      enum: ["home", "driving", "walking", "computer", "none"],
       default: "none",
     },
-    deadline: { type: Date, default: "2099-01-01T10:30" },
+    deadline: { type: Date },
   },
   { timestamps: true }
 );

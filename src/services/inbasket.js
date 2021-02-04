@@ -1,10 +1,10 @@
 require("../db");
 const mongoose = require("mongoose");
-const Braindump = require("../models/braindump");
+const Inbasket = require("../models/inbasket");
 
 const all = async () => {
   try {
-    const data = await Braindump.find({}).exec();
+    const data = await Inbasket.find({}).exec();
     return data;
   } catch (err) {
     console.log("Error: ", err.stack);
@@ -14,7 +14,7 @@ const all = async () => {
 const create = async function (body) {
   console.log(body)
   body._id = new mongoose.Types.ObjectId();
-  const created = new Braindump(body);
+  const created = new Inbasket(body);
   created.save(function (err) {
     if (err) return err;
   });
@@ -22,11 +22,9 @@ const create = async function (body) {
 };
 
 const destroy = async (id) => {
-  console.log("DELETED BRAINDUMP OF ID: ", id)
-
   const filter = { _id: id };
   try {
-    const deleted = await Braindump.deleteOne(filter).exec();
+    const deleted = await Inbasket.deleteOne(filter).exec();
     return deleted
   } catch (err) {
     console.log("Error: ", err);
