@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const BraindumpSchema = new Schema(
   {
-    description: String
+    description: String,
+    uid: String
   },
   { timestamps: true }
 );

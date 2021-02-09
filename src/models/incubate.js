@@ -4,7 +4,8 @@ require('mongoose-type-url')
 const IncubateSchema = new Schema(
   {
     urls:[mongoose.SchemaTypes.Url],
-    note: String
+    note: String,
+    uid: String
   },
   { timestamps: true }
 );

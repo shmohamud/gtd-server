@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const all = async (req, res) => {
   try {
-    const all = await services.all();
+    const data = await services.all(req.user.uid);
     res.status(200);
     res.json(all);
   } catch (err) {
@@ -14,22 +14,21 @@ const all = async (req, res) => {
 };
 
 const byId = async (req, res) => {
-  const { incubate_id } = req.params;
+  const { id } = req.params;
   try {
-    const data = await services.byId(incubate_id);
+    const data = await services.byId(id);
     res.status(200);
     res.json(data);
     return data;
   } catch (err) {
-    res.status(500)
+    res.status(500);
     console.log("Error: ", err);
   }
 };
 
 const create = async function (req, res) {
   try {
-    const body = req.body;
-    const created = await services.create(body);
+    const created = await services.create(req.user.uid, req.body);
     res.json(created);
     res.status(201);
   } catch (err) {
@@ -38,27 +37,26 @@ const create = async function (req, res) {
 };
 
 const update = async (req, res) => {
-  const { incubate_id } = req.params;
-  const update = req.body;
+  const { id } = req.params;
   try {
-    const updated = await services.update(incubate_id, update);
+    const updated = await services.update(id, req.body);
     res.status(200);
     res.json(updated);
   } catch (err) {
-    res.status(500)
+    res.status(500);
     console.log("Error: ", err);
   }
 };
 
 const destroy = async (req, res) => {
   try {
-    const { incubate_id } = req.params;
-    const destroyed = await services.destroy(incubate_id);
+    const { id } = req.params;
+    const destroyed = await services.destroy(id);
     res.status(200);
     res.json(destroyed);
     return destroyed;
   } catch (err) {
-    res.status(500)
+    res.status(500);
     console.log("Error: ", err);
   }
 };

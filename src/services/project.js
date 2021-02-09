@@ -2,7 +2,7 @@ require("../db");
 const mongoose = require("mongoose");
 const Project = require("../models/project");
 
-const all = async () => {
+const all = async (uid) => {
   try {
     const data = await Project.find({}).exec();
     return data;
@@ -20,19 +20,18 @@ const byId = async (id) => {
   }
 };
 
-const create = async function (body) {
-  body._id = new mongoose.Types.ObjectId();
+const create = async function (uid, body) {
+  body.uid = uid;
   const created = new Project(body);
   created.save(function (err) {
     if (err) return err;
   });
-  return created
+  return created;
 };
 
 const update = async (id, update) => {
-  const filter = { _id: id };
   try {
-    const updated = await Project.findOneAndUpdate(filter, update, {
+    const updated = await Project.findOneAndUpdate({ _id: id }, update, {
       new: true,
     }).exec();
     return updated;
@@ -43,13 +42,10 @@ const update = async (id, update) => {
 };
 
 const destroy = async (id) => {
-  const filter = { _id: id };
-  try {
-    const project = await Project.deleteOne(filter).exec();
-    return project;
-  } catch (err) {
-    console.log("Error: ", err);
-  }
+  Project.deleteOne({ _id: id }, function (err, output) {
+    if (err) return err;
+    console.log("output of project db op ", output);
+  });
 };
 
 module.exports = {

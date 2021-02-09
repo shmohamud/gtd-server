@@ -4,9 +4,9 @@ const mongoose = require("mongoose");
 
 const all = async (req, res) => {
   try {
-    const all = await services.all();
+    const data= await services.all(req.user.uid);
     res.status(200);
-    res.json(all);
+    res.json(data);
   } catch (err) {
     res.status(500);
     console.log(err.stack);
@@ -14,9 +14,9 @@ const all = async (req, res) => {
 };
 
 const byId = async (req, res) => {
-  const { project_id } = req.params;
+  const { id } = req.params;
   try {
-    const data = await services.byId(project_id);
+    const data = await services.byId(id);
     res.status(200);
     res.json(data);
     return data;
@@ -29,19 +29,20 @@ const byId = async (req, res) => {
 const create = async function (req, res) {
   try {
     const body = req.body;
-    const created = await services.create(body);
+    const created = await services.create(req.user.uid, body);
     res.json(created);
     res.status(201);
   } catch (err) {
     res.status(500);
+    console.log("Error: ", err);
   }
 };
 
 const update = async (req, res) => {
-  const { project_id } = req.params;
+  const { id } = req.params;
   const update = req.body;
   try {
-    const updated = await services.update(project_id, update);
+    const updated = await services.update(id, update);
     res.status(200);
     res.json(updated);
   } catch (err) {
@@ -52,8 +53,8 @@ const update = async (req, res) => {
 
 const destroy = async (req, res) => {
   try {
-    const { project_id } = req.params;
-    const destroyed = await services.destroy(project_id);
+    const { id } = req.params;
+    const destroyed = await services.destroy(id);
     res.status(200);
     res.json(destroyed);
     return destroyed;
@@ -62,6 +63,8 @@ const destroy = async (req, res) => {
     console.log("Error: ", err);
   }
 };
+
+
 
 module.exports = {
   all: all,

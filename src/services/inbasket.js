@@ -12,23 +12,18 @@ const all = async () => {
 };
 
 const create = async function (body) {
-  console.log(body)
-  body._id = new mongoose.Types.ObjectId();
   const created = new Inbasket(body);
   created.save(function (err) {
     if (err) return err;
   });
-  return created
+  return created;
 };
 
 const destroy = async (id) => {
-  const filter = { _id: id };
-  try {
-    const deleted = await Inbasket.deleteOne(filter).exec();
-    return deleted
-  } catch (err) {
-    console.log("Error: ", err);
-  }
+  Inbasket.deleteOne({ _id: id }, function (err, output) {
+    if (err) return err;
+    console.log("output of inbasket db op ", output);
+  });
 };
 
 module.exports = {

@@ -1,41 +1,38 @@
 require("../db");
 const mongoose = require("mongoose");
 const Action = require("../models/action");
-const Project = require("../models/project");
 
-const all = async () => {
+const all = async (uid) => {
   try {
-    const data = await Action.find({}).exec();
+    const data = await Action.find({ uid: uid }).exec();
     return data;
   } catch (err) {
     console.log(err.stack);
   }
 };
 
-const byId = async (id) => {
+const byId = async (actionId) => {
   try {
-    const data = await Action.findById(id).exec();
+    const data = await Action.findById(actionId).exec();
     return data;
   } catch (err) {
     console.log("Error: ", err);
   }
 };
 
-const create = async function (action) {
-  //Create the action
-  console.log("CREATE RESULT IN ACTION SERVICES: ", action)
-  const created = await Action.create([action], async function (err) {
-    if (err) {
-      console.log("Error: ", err);
-    }
-  }, {new:true});
-  return action;
+const create = async function (uid, body) {
+  body.uid = uid;
+  const created = new Action(body);
+  created.save(function (err) {
+    if (err) return err;
+  });
+  console.log("Created Action in Service: ", created);
+  return created;
 };
 
 const update = async (id, update) => {
-  const filter = { _id: id };
   try {
-    const updated = await Action.findOneAndUpdate(filter, update, {
+    const updated = await Action.findOneAndUpdate({ _id: id }, update, {
       new: true,
     }).exec();
     return updated;
@@ -45,12 +42,8 @@ const update = async (id, update) => {
 };
 
 const destroy = async (id) => {
-  const action_id = mongoose.Types.ObjectId(id);
-  var ObjectId = mongoose.Types.ObjectId;
-  const filter = { _id: ObjectId(id) };
-
-  Action.deleteOne(filter, function (err, output) {
-    if(err) return err
+  Action.deleteOne({ _id: id }, function (err, output) {
+    if (err) return err;
     console.log("output of action db op ", output);
   });
 };

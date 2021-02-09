@@ -1,28 +1,21 @@
 require("../db");
 const mongoose = require("mongoose");
-const ObjectId = mongoose.Types.ObjectId;
 const services = require("../services/action");
-const action = require("../models/action");
 
 const all = async (req, res) => {
   try {
-    const actions = await services.all();
+    const data = await services.all(req.user.uid);
     res.status(200);
-    res.json(actions);
+    res.json(data);
   } catch (err) {
     res.status(500);
     console.log(err.stack);
   }
 };
 
-const create = async function (req, res) {
-
-  let action = req.body
-  action._id = new ObjectId();
-  console.log("ACTION IN CREATE CONTROLLER: ", action)
-  try {
-    const data = await services.create(action);
-    console.log("DB PROCESSED ACTION IN CREATE CONTROLLER: ", data)
+const create = async (req, res) => {
+ try {
+    const data = await services.create(req.user.uid, req.body);
     res.json(data);
     res.status(201);
   } catch (err) {
@@ -31,12 +24,9 @@ const create = async function (req, res) {
 };
 
 const update = async (req, res) => {
-  const { action_id } = req.params;
-  const update = req.body;
-  console.log("IN UPDATE : ", "BODY: ", req.body, "ID: ",action_id )
-
+  const { id } = req.params;
   try {
-    const updated = await services.update(action_id, update);
+    const updated = await services.update(id, req.body);
     res.status(200);
     res.json(updated);
   } catch (err) {
@@ -46,9 +36,9 @@ const update = async (req, res) => {
 };
 
 const destroy = async (req, res) => {
-  const { action_id } = req.params;
+  const { id } = req.params;
   try {
-    const destroyed = await services.destroy(action_id);
+    const destroyed = await services.destroy(id);
     res.status(200);
     res.json(destroyed);
     return destroyed;

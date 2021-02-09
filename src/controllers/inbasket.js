@@ -4,9 +4,9 @@ const mongoose = require("mongoose");
 
 const all = async (req, res) => {
   try {
-    const all = await services.all();
+    const data = await services.all();
     res.status(200);
-    res.json(all);
+    res.json(data);
   } catch (err) {
     res.status(500);
     console.log(err.stack);
@@ -15,8 +15,7 @@ const all = async (req, res) => {
 
 const create = async function (req, res) {
   try {
-    const body = req.body;
-    const created = await services.create(body);
+    const created = await services.create(req.body);
     res.json(created);
     res.status(201);
   } catch (err) {
@@ -26,8 +25,8 @@ const create = async function (req, res) {
 
 const destroy = async (req, res) => {
   try {
-    const { inbasket_id } = req.params;
-    const destroyed = await services.destroy(inbasket_id);
+    const { id } = req.params;
+    const destroyed = await services.destroy(id);
     res.status(200);
     res.json(destroyed);
     return destroyed;

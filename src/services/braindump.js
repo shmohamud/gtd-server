@@ -2,35 +2,29 @@ require("../db");
 const mongoose = require("mongoose");
 const Braindump = require("../models/braindump");
 
-const all = async () => {
+const all = async (uid) => {
   try {
-    const data = await Braindump.find({}).exec();
+    const data = await Braindump.find({ uid: uid }).exec();
     return data;
   } catch (err) {
     console.log("Error: ", err.stack);
   }
 };
 
-const create = async function (body) {
-  console.log(body)
-  body._id = new mongoose.Types.ObjectId();
+const create = async function (uid, body) {
+  body.uid = uid;
   const created = new Braindump(body);
   created.save(function (err) {
     if (err) return err;
   });
-  return created
+  return created;
 };
 
 const destroy = async (id) => {
-  console.log("DELETED BRAINDUMP OF ID: ", id)
-
-  const filter = { _id: id };
-  try {
-    const deleted = await Braindump.deleteOne(filter).exec();
-    return deleted
-  } catch (err) {
-    console.log("Error: ", err);
-  }
+  Braindump.deleteOne({ _id: id }, function (err, output) {
+    if (err) return err;
+    console.log("output of braindump db op ", output);
+  });
 };
 
 module.exports = {

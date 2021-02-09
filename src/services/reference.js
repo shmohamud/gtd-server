@@ -2,9 +2,9 @@ require("../db");
 const mongoose = require("mongoose");
 const Reference = require("../models/reference");
 
-const all = async () => {
+const all = async (uid) => {
   try {
-    const data = await Project.find({}).exec();
+    const data = await Project.find({ uid: uid }).exec();
     return data;
   } catch (err) {
     console.log(err.stack);
@@ -25,13 +25,12 @@ const create = async function (body) {
   created.save(function (err) {
     if (err) return err;
   });
-  return created
+  return created;
 };
 
 const update = async (id, update) => {
-  const filter = { _id: id };
   try {
-    const updated = await Reference.findOneAndUpdate(filter, update, {
+    const updated = await Reference.findOneAndUpdate({ _id: id }, update, {
       new: true,
     }).exec();
     return updated;
@@ -41,13 +40,10 @@ const update = async (id, update) => {
 };
 
 const destroy = async (id) => {
-  const filter = { _id: id };
-  try {
-    const reference = await Reference.deleteOne(filter).exec();
-    return reference;
-  } catch (err) {
-    console.log("Error: ", err);
-  }
+  Reference.deleteOne({ _id: id }, function (err, output) {
+    if (err) return err;
+    console.log("output of reference db op ", output);
+  });
 };
 
 module.exports = {

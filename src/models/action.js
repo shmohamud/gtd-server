@@ -3,15 +3,14 @@ const Schema = mongoose.Schema;
 
 const ActionSchema = new Schema(
   {
-    _id: Schema.Types.ObjectId,
+    description: { type: String, default: "default description" },
     type: {
       type: String,
       enum: ["code", "call", "hangout", "reading", "delegate", "none"],
       default: "none",
     },
-    queued: { type: Boolean, default: false },
-    description: { type: String, default: "default description" },
     complete: { type: Boolean, default: false },
+    queued: { type: Boolean, default: false },
     waitingFor: [],
     setting: {
       type: String,
@@ -19,6 +18,7 @@ const ActionSchema = new Schema(
       default: "none",
     },
     deadline: { type: Date },
+    uid: String,
   },
   { timestamps: true }
 );

@@ -5,6 +5,7 @@ require('mongoose-type-url')
 const InbasketSchema = new Schema(
   {
     description: String,
+    uid: String,
     urls:[mongoose.SchemaTypes.Url],
   },
   { timestamps: true }
