@@ -1,7 +1,7 @@
 const express = require("express");
 const Project = require("../controllers/project");
 const projects = express.Router();
-const {setCurrentUser}= require('../middleware')
+const {setCurrentUser} = require('../middleware')
 
 projects.get("/", async (req, res, next) => setCurrentUser(req, res, next), async (req, res) => Project.all(req,res))
 projects.get("/:id", async (req, res, next) => setCurrentUser(req, res, next), async (req, res) => Project.byId(req, res))
