@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
+require('dotenv').config()
 const chalk = require("chalk");
-
 const connected = chalk.bold.greenBright;
 const error = chalk.bold.yellowBright;
 const disconnected = chalk.bold.red;
 const closed = chalk.bold.bgWhite;
 
-const dbURL = "mongodb://127.0.0.1:27017/gtd-api";
+const dbURL = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/gtd-api";
 
 mongoose.connect(dbURL, {
   useNewUrlParser: true,
