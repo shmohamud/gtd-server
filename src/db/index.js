@@ -8,6 +8,8 @@ const closed = chalk.bold.bgWhite;
 
 const dbURL = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/gtd-api";
 
+console.log("DB URL ", dbURL)
+
 mongoose.connect(dbURL, {
   useNewUrlParser: true,
   useCreateIndex: true,

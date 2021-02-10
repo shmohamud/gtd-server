@@ -7,7 +7,7 @@ const all = async (uid) => {
     const data = await Project.find({uid:uid}).exec();
     return data;
   } catch (err) {
-return err
+    console.log(err.stack);
   }
 };
 
@@ -16,7 +16,7 @@ const byId = async (id) => {
     const data = await Project.findById(id).exec();
     return data;
   } catch (err) {
-    return err
+    console.log("Error: ", err);
   }
 };
 
@@ -36,13 +36,14 @@ const update = async (id, update) => {
     }).exec();
     return updated;
   } catch (err) {
-    return err
+  console.log("Error: ", err)
   }
 };
 
 const destroy = async (id) => {
   Project.deleteOne({ _id: id }, function (err, output) {
     if (err) return err;
+    console.log("output of project db op ", output);
   });
 };
 
