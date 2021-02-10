@@ -36,7 +36,7 @@ app.use("/", auth)
 
 console.log("HEROKU PROCESS PORT: ", process.env.port)
 
-const port = process.env.port || 4000;
+const port = process.env.PORT || 4000;
 
 app.listen(port, function () {
   console.log(`Server is up on port ${port}`);
