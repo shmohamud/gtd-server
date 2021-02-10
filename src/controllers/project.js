@@ -9,8 +9,8 @@ const all = async (req, res) => {
     res.json(data);
   } catch (err) {
     res.status(500);
-    console.log(err.stack);
-  }
+return err  
+}
 };
 
 const byId = async (req, res) => {
@@ -22,8 +22,7 @@ const byId = async (req, res) => {
     return data;
   } catch (err) {
     res.status(500)
-    console.log("Error: ", err);
-  }
+    return err   }
 };
 
 const create = async function (req, res) {
@@ -34,7 +33,7 @@ const create = async function (req, res) {
     res.status(201);
   } catch (err) {
     res.status(500);
-    console.log("Error: ", err);
+    return err 
   }
 };
 
@@ -47,7 +46,7 @@ const update = async (req, res) => {
     res.json(updated);
   } catch (err) {
     res.status(500)
-    console.log("Error: ", err);
+    return err 
   }
 };
 
@@ -60,7 +59,7 @@ const destroy = async (req, res) => {
     return destroyed;
   } catch (err) {
     res.status(500)
-    console.log("Error: ", err);
+    return err 
   }
 };
 
