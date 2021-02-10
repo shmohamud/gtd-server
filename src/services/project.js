@@ -4,7 +4,7 @@ const Project = require("../models/project");
 
 const all = async (uid) => {
   try {
-    const data = await Project.find({}).exec();
+    const data = await Project.find({uid:uid}).exec();
     return data;
   } catch (err) {
     console.log(err.stack);

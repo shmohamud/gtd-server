@@ -38,7 +38,6 @@ const create = async function (req, res) {
 const destroy = async (req, res) => {
   try {
     const destroyed = await services.destroy(req.params.id);
-    console.log("Destroyed: ", destroyed);
     res.status(200);
     res.json(destroyed);
     return destroyed;

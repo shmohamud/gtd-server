@@ -20,7 +20,9 @@ const byId = async (id) => {
   }
 };
 
-const create = async function (body) {
+const create = async function (uid, body) {
+  body.uid = uid
+  console.log("BODY: ", body)
   const created = new Reference(body);
   created.save(function (err) {
     if (err) return err;

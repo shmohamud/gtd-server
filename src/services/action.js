@@ -26,7 +26,6 @@ const create = async function (uid, body) {
   created.save(function (err) {
     if (err) return err;
   });
-  console.log("Created Action in Service: ", created);
   return created;
 };
 
