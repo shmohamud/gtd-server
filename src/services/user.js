@@ -6,22 +6,19 @@ const mongoose = require("mongoose");
 const User = require("../models/user");
 const Session = require("../models/session");
 
-const signup = async (req) => {
-  req.body.password = bcrypt.hashSync(req.body.password, 8);
-  const created = new User(req.body);
-  created.save(function (err) {
-    if (err) return err;
-  });
-  return created;
+const signup = async (body) => {
+  body.password = bcrypt.hashSync(body.password, 8);
+  let created = new User(body);
+  return created.save();
 };
 
-const login = async (req) => {
+const login = async (body) => {
   try {
     let user = await User.findOne({
-      username: req.body.username
+      username: body.username,
     }).exec();
     let { _id, firstname, lastname, username, email, password } = user;
-    const passwordIsValid = bcrypt.compareSync(req.body.password, password);
+    const passwordIsValid = bcrypt.compareSync(body.password, password);
     if (passwordIsValid) {
       const accessToken = jwt.sign({ id: _id }, config.secret, {
         expiresIn: 86400,
@@ -77,5 +74,5 @@ module.exports = {
   signup: signup,
   login: login,
   logout: logout,
-  getUserFromToken: getUserFromToken
+  getUserFromToken: getUserFromToken,
 };

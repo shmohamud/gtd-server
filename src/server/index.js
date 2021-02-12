@@ -34,8 +34,6 @@ app.use("/inbaskets", inbaskets);
 app.use("/users", users)
 app.use("/", auth)
 
-console.log("HEROKU PROCESS PORT: ", process.env.port)
-
 const port = process.env.PORT || 4000;
 
 app.listen(port, function () {

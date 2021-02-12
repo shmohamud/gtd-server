@@ -3,17 +3,18 @@ const services = require("../services/user");
 
 const signup = async (req, res) => {
   try {
-    await services.signup(req);
+    await services.signup(req.body);
     res.status(201);
   } catch (err) {
-    res.status(500);
-    console.log(err.stack);
+    console.log("Error in signup: controller ", err)
+    res.status(500)
+    return res.json({error: "save failed", err:err})
   }
 };
 
 const login = async (req, res) => {
   try {
-    await services.login(req).then((data) => {
+    await services.login(req.body).then((data) => {
       if (data && data.hasOwnProperty("accessToken")) {
         res.status(200);
         return res.json(data);
