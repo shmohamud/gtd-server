@@ -4,11 +4,11 @@ const services = require("../services/user");
 const signup = async (req, res) => {
   try {
     await services.signup(req.body);
-    res.status(201);
+    return res.status(201).json({ message: "user creation success!" });
   } catch (err) {
-    console.log("Error in signup: controller ", err)
-    res.status(500)
-    return res.json({error: "save failed", err:err})
+    console.log("Error: ", err)
+    res.status(500);
+    return res.json({ error: err });
   }
 };
 

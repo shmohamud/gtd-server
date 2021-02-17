@@ -6,7 +6,6 @@ auth.post("/signup", async (req, res, next) => {
   try {
     await Auth.signup(req, res);
   } catch (err) {
-    next(err);
   }
 });
 

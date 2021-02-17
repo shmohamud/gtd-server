@@ -9,7 +9,9 @@ const Session = require("../models/session");
 const signup = async (body) => {
   body.password = bcrypt.hashSync(body.password, 8);
   let created = new User(body);
-  return created.save();
+  console.log("In signup, created is: ", created)
+  await created.save();
+  return 
 };
 
 const login = async (body) => {

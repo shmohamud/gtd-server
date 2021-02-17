@@ -28,8 +28,8 @@ const byId = async (req, res) => {
 const create = async function (req, res) {
   try {
     const created = await services.create(req.user.uid, req.body);
-    res.json(created);
-    res.status(201);
+    res.status(201)
+    res.json(created);;
   } catch (err) {
     res.status(500);
   }
@@ -37,10 +37,11 @@ const create = async function (req, res) {
 
 const destroy = async (req, res) => {
   try {
-    const destroyed = await services.destroy(req.params.id);
+    await services.destroy(req.params.id);
+    console.log("req.params.id in braindump: ", req.params.id)
     res.status(200);
-    res.json(destroyed);
-    return destroyed;
+    return res.json({message: "Deletion success!"});
+   
   } catch (err) {
     res.status(500);
     console.log("Error: ", err);
