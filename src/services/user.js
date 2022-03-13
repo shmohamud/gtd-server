@@ -56,7 +56,10 @@ const logout = async (body) => {
 
 //Find user based on jwt token stored in Session
 const getUserFromToken = async (token) => {
+  console.log (`token: ${token}`);
+  if (!token) return false;
   let accessToken = token.split(" ")[1];
+  console.log("TOKEN: ", token);
   //Find Session based on username in request
   const user = await Session.findOne(
     { token: accessToken },
@@ -73,8 +76,8 @@ const getUserFromToken = async (token) => {
 };
 
 module.exports = {
-  signup: signup,
-  login: login,
-  logout: logout,
-  getUserFromToken: getUserFromToken,
+  signup,
+  login,
+  logout,
+  getUserFromToken
 };

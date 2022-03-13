@@ -4,6 +4,7 @@ const Action = require("../controllers/action");
 const {setCurrentUser} = require('../middleware')
 
 actions.use((req, res, next)=>{
+    console.log("IN ACTIONS route middware");
     setCurrentUser(req, res, next)
 }) 
 

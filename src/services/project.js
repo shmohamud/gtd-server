@@ -30,6 +30,7 @@ const create = async function (uid, body) {
 };
 
 const update = async (id, update) => {
+  console.log("findOneAndUpate, projedts", id, "ID --<", update, "--< update")
   try {
     const updated = await Project.findOneAndUpdate({ _id: id }, update, {
       new: true,

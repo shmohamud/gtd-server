@@ -17,7 +17,8 @@ const login = async (req, res) => {
     await services.login(req.body).then((data) => {
       if (data && data.hasOwnProperty("accessToken")) {
         res.status(200);
-        return res.json(data);
+        console.log("data in user controller :", data)
+        return res.json(data)
       } else {
         throw "Invalid Credentials";
       }
@@ -31,7 +32,7 @@ const logout = async (req, res) => {
   try {
     await services.logout(req.body);
     res.status(200);
-    return res.json("Logout success!");
+    return res.json({message: "Logout success!"});
   } catch (err) {
     console.log("Error: ", err);
   }

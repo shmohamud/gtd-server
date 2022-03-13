@@ -15,6 +15,7 @@ const all = async (req, res) => {
 
 const byId = async (req, res) => {
   const { id } = req.params;
+  console.log("byIdddddddddddd: ", id)
   try {
     const data = await services.byId(id);
     res.status(200);
@@ -41,6 +42,9 @@ const create = async function (req, res) {
 const update = async (req, res) => {
   const { id } = req.params;
   const update = req.body;
+  console.log("id: ", id, "body: ", update)
+  console.log("Update  !!! byIdddddddddddd: ", id, "Update req.boxy: ", update)
+
   try {
     const updated = await services.update(id, update);
     res.status(200);

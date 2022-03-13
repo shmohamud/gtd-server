@@ -6,7 +6,7 @@ const ProjectSchema = new Schema(
     title: { type: String, default: "default project title" },
     description: { type: String, default: "default project description" },
     deadline: { type: Date },
-    uid: String
+    uid: String,
   },
   { timestamps: true }
 );
