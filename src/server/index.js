@@ -15,7 +15,6 @@ const users = require("../routes/user");
 const app = new express();
 // app.use(cors())
 app.use(function(req, res, next){
-  console.log (req)
   console.log (`${req.get('origin')} -> ${req.method} ${req.path}`);
   res.header("Access-Control-Allow-Origin", req.get('origin'));
   res.header("Access-Control-Allow-Credentials", true);

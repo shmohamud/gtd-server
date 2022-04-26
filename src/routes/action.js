@@ -3,6 +3,7 @@ const actions = express.Router();
 const Action = require("../controllers/action");
 const {setCurrentUser} = require('../middleware')
 
+console.log("Router :", actions)
 actions.use((req, res, next)=>{
     console.log("IN ACTIONS route middware");
     setCurrentUser(req, res, next)

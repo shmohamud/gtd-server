@@ -4,7 +4,6 @@ const projects = express.Router();
 const {setCurrentUser} = require('../middleware')
 
 projects.use((req, res, next)=>{
-    console.log (req, res);
     setCurrentUser(req, res, next)
 }) 
 
