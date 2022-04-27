@@ -32,15 +32,6 @@ const ProjectSchema = new Schema(
   { timestamps: true }
 );
 
-//Quick test
-//TODO: Update the create service & controller for actions to ensure they're pushed and saved to a project on CREATION
-const aProjectModel = mongoose.model("Project", ProjectSchema)
-
-const aProject = new aProjectModel({title: "test", description:"test des", deadline: Date()})
-aProject.actions.push({description:"test desc", complete:false, deadline:Date()})
-console.log("A PROJECT: ", aProject)
-
-aProject.save((err, data)=>{})
 
 module.exports = mongoose.model("Project", ProjectSchema);
 

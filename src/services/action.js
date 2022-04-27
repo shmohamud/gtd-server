@@ -1,6 +1,7 @@
 require("../db");
 const mongoose = require("mongoose");
 const Action = require("../models/action");
+const Project = require("../models/project");
 
 const all = async (uid) => {
   try {
@@ -22,11 +23,27 @@ const byId = async (actionId) => {
 
 const create = async function (uid, body) {
   body.uid = uid;
+  const projectId = body.project_id;
   const created = new Action(body);
   created.save(function (err) {
     if (err) return err;
   });
-  return created;
+  return Project.findByIdAndUpdate(
+    projectId,
+    {
+      $push: {
+        actions: {
+          description: created.description,
+          type: created.type,
+          complete: created.complete,
+          queued: created.queued,
+          waitingFor: created.waitingFor,
+          setting: created.setting,
+        },
+      },
+    },
+    { new: true, useFindAndModify: false }
+  );
 };
 
 const update = async (id, update) => {

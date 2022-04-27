@@ -1,13 +1,11 @@
 const express = require("express");
 const actions = express.Router();
 const Action = require("../controllers/action");
-const {setCurrentUser} = require('../middleware')
+const { setCurrentUser } = require("../middleware");
 
-console.log("Router :", actions)
-actions.use((req, res, next)=>{
-    console.log("IN ACTIONS route middware");
-    setCurrentUser(req, res, next)
-}) 
+actions.use((req, res, next) => {
+  setCurrentUser(req, res, next);
+});
 
 actions.get("/", async (req, res) => Action.all(req, res));
 actions.post("/", async (req, res) => Action.create(req, res));
