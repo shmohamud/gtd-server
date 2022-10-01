@@ -14,7 +14,7 @@ const ActionSchema = new Schema(
     waitingFor: [],
     setting: {
       type: String,
-      enum: ["home", "driving", "walking", "computer", "none"],
+      enum: ["home", "commuting", "club", "driving", "walking", "computer", "none"],
       default: "none",
     },
     deadline: { type: Date },

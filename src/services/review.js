@@ -43,7 +43,6 @@ const update = async (id, update) => {
 const destroy = async (id) => {
   Review.deleteOne({ _id: id }, function (err, output) {
     if (err) return err;
-    console.log("output of review db op ", output);
   });
 };
 

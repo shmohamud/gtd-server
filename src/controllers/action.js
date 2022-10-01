@@ -25,11 +25,8 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   const { id } = req.params;
-  console.log("IN UPDATE ACTION CTRLR: ", id, update)
-
   try {
     const updated = await services.update(id, req.body);
-    console.log("UPDATE SUCCESS updated equals: ", updated )
     res.status(200);
     res.json(updated);
   } catch (err) {

@@ -17,7 +17,6 @@ const login = async (req, res) => {
     await services.login(req.body).then((data) => {
       if (data && data.hasOwnProperty("accessToken")) {
         res.status(200);
-        console.log("data in user controller :", data)
         return res.json(data)
       } else {
         throw "Invalid Credentials";

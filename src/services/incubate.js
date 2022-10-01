@@ -43,7 +43,6 @@ const update = async (id, update) => {
 const destroy = async (id) => {
     Incubate.deleteOne({ _id: id }, function (err, output) {
       if (err) return err;
-      console.log("output of incubate db op ", output);
     });
 };
 

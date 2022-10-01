@@ -22,7 +22,6 @@ const byId = async (id) => {
 
 const create = async function (uid, body) {
   body.uid = uid
-  console.log("BODY: ", body)
   const created = new Reference(body);
   created.save(function (err) {
     if (err) return err;
@@ -44,7 +43,6 @@ const update = async (id, update) => {
 const destroy = async (id) => {
   Reference.deleteOne({ _id: id }, function (err, output) {
     if (err) return err;
-    console.log("output of reference db op ", output);
   });
 };
 

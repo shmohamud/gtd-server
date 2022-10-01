@@ -9,7 +9,6 @@ const Session = require("../models/session");
 const signup = async (body) => {
   body.password = bcrypt.hashSync(body.password, 8);
   let created = new User(body);
-  console.log("In signup, created is: ", created)
   await created.save();
   return 
 };
@@ -56,10 +55,8 @@ const logout = async (body) => {
 
 //Find user based on jwt token stored in Session
 const getUserFromToken = async (token) => {
-  console.log (`token: ${token}`);
   if (!token) return false;
   let accessToken = token.split(" ")[1];
-  console.log("TOKEN: ", token);
   //Find Session based on username in request
   const user = await Session.findOne(
     { token: accessToken },

@@ -38,7 +38,6 @@ const create = async function (req, res) {
 const destroy = async (req, res) => {
   try {
     await services.destroy(req.params.id);
-    console.log("req.params.id in braindump: ", req.params.id)
     res.status(200);
     return res.json({message: "Deletion success!"});
    

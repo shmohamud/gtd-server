@@ -30,7 +30,6 @@ const create = async function (uid, body) {
 };
 
 const update = async (id, update) => {
-  console.log("findOneAndUpate, projedts", id, "ID --<", update, "--< update")
   try {
     const updated = await Project.findOneAndUpdate({ _id: id }, update, {
       new: true,
@@ -44,7 +43,6 @@ const update = async (id, update) => {
 const destroy = async (id) => {
   Project.deleteOne({ _id: id }, function (err, output) {
     if (err) return err;
-    console.log("output of project db op ", output);
   });
 };
 
