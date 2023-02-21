@@ -18,6 +18,7 @@ const ActionSchema = new Schema({
   },
   deadline: { type: Date },
   uid: String,
+  priority: {enum: ["low", "medium", "high"]}
 },
 { timestamps: true })
 

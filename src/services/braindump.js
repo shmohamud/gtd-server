@@ -23,7 +23,6 @@ const create = async function (uid, body) {
 const destroy = async (id) => {
   Braindump.deleteOne({ _id: id }, function (err, output) {
     if (err) return err;
-    console.log("output of braindump db op ", output);
   });
 };
 

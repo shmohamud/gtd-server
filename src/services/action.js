@@ -39,6 +39,7 @@ const create = async function (uid, body) {
           queued: created.queued,
           waitingFor: created.waitingFor,
           setting: created.setting,
+          priority: created.priority
         },
       },
     },

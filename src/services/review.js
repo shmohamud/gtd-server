@@ -36,7 +36,7 @@ const update = async (id, update) => {
     }).exec();
     return updated;
   } catch (err) {
-    console.log("Error: ", err, stack);
+    console.log("Error: ", err, "Stack trace: ", stack);
   }
 };
 
